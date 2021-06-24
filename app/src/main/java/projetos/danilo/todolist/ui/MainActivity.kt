@@ -1,11 +1,9 @@
-package projetos.danilo.todolist
+package projetos.danilo.todolist.ui
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import projetos.danilo.todolist.databinding.ActivityAddTaskBinding
 import projetos.danilo.todolist.databinding.ActivityMainBinding
-import projetos.danilo.todolist.ui.AddTaskActivity
 
 class MainActivity : AppCompatActivity() {
 
