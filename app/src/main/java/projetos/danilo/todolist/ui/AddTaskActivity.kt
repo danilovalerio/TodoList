@@ -5,9 +5,11 @@ import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.timepicker.MaterialTimePicker
 import com.google.android.material.timepicker.TimeFormat
+import projetos.danilo.todolist.data.TaskDataSource
 import projetos.danilo.todolist.databinding.ActivityAddTaskBinding
 import projetos.danilo.todolist.extensions.format
 import projetos.danilo.todolist.extensions.text
+import projetos.danilo.todolist.model.Task
 import java.util.*
 
 class AddTaskActivity : AppCompatActivity() {
@@ -41,7 +43,10 @@ class AddTaskActivity : AppCompatActivity() {
                 .build()
 
             timePicker.addOnPositiveButtonClickListener{
-                binding.tilTimer.text = "${timePicker.hour} ${timePicker.minute}"
+                val minute = if (timePicker.minute in 0..9) "0${timePicker.minute}" else timePicker.minute
+                val hour = if (timePicker.hour in 0..9) "0${timePicker.hour}" else timePicker.hour
+
+                binding.tilTimer.text = "$hour:$minute"
             }
 
             timePicker.show(supportFragmentManager, null)
@@ -52,7 +57,13 @@ class AddTaskActivity : AppCompatActivity() {
         }
 
         binding.btnNewTask.setOnClickListener {
-            //todo: Adicionar Task
+            val task = Task(
+                title = binding.tilTitle.text,
+                description = binding.tilDescription.text,
+                hour = binding.tilTimer.text,
+                date = binding.tilDate.text
+            )
+            TaskDataSource.insertTask(task)
         }
 
     }
