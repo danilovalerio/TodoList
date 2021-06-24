@@ -2,9 +2,11 @@ package projetos.danilo.todolist.ui
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.appcompat.widget.PopupMenu
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import projetos.danilo.todolist.R
 import projetos.danilo.todolist.databinding.ItemTaskBinding
 import projetos.danilo.todolist.model.Task
 
@@ -26,6 +28,22 @@ class TaskListAdapter : ListAdapter<Task, TaskListAdapter.TaskViewHolder>(DiffCa
         fun bind(item: Task) {
             binding.tvTitle.text = item.title
             binding.tvDate.text = "${item.date} ${item.hour}"
+            binding.ivTaskMore.setOnClickListener {
+                showPopup()
+            }
+        }
+
+        private fun showPopup() {
+            val ivMore = binding.ivTaskMore
+            val popupMenu = PopupMenu(ivMore.context, ivMore)
+            popupMenu.menuInflater.inflate(R.menu.popup_menu, popupMenu.menu)
+            popupMenu.setOnMenuItemClickListener {
+                when (it.itemId) {
+                    R.id.action_edit -> {}
+                    R.id.action_delete -> {}
+                }
+                return@setOnMenuItemClickListener true
+            }
         }
     }
 }
