@@ -11,7 +11,7 @@
         android:theme="@style/Theme.ToDoList">
         <activity android:name=".MainActivity"/>
 
-        <activity android:name=".AddTaskActivity">
+        <activity android:name=".ui.AddTaskActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

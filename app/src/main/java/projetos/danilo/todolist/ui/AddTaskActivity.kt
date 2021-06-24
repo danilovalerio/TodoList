@@ -1,4 +1,4 @@
-package projetos.danilo.todolist
+package projetos.danilo.todolist.ui
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
