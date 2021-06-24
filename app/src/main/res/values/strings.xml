@@ -7,4 +7,6 @@
     <string name="label_timer">Hora</string>
     <string name="label_esc">Cancelar</string>
     <string name="label_button_new_task">Criar tarefa</string>
+    <string name="label_tasks">Tarefas</string>
+    <string name="description_label_new_task">Nova Tarefa</string>
 </resources>
