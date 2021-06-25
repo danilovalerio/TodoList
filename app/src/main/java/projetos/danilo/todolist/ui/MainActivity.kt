@@ -5,6 +5,7 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import projetos.danilo.todolist.data.TaskDataSource
 import projetos.danilo.todolist.databinding.ActivityMainBinding
 
@@ -18,19 +19,22 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        setupListeners()
-        setupRecyclerView()
-
-
-    }
-
-    private fun setupRecyclerView() {
         binding.rvTasks.adapter = adapterTasks
         updateList()
+
+        setupListeners()
     }
 
     private fun updateList() {
-        adapterTasks.submitList(TaskDataSource.getList())
+        val list = TaskDataSource.getList()
+        if (list.isEmpty()){
+            binding.includeState.emptyState.visibility = View.VISIBLE
+        } else {
+            binding.includeState.emptyState.visibility = View.GONE
+        }
+
+        adapterTasks.submitList(list)
+        adapterTasks.notifyDataSetChanged()
     }
 
     private fun setupListeners() {

@@ -3,11 +3,16 @@ package projetos.danilo.todolist.data
 import projetos.danilo.todolist.model.Task
 
 object TaskDataSource {
-    private val list = arrayListOf<Task>(
-        Task(1, "Titulo da minha tarefa", "descricao do item", "01/01/2021", "18:00")
+    private val list = mutableListOf<Task>(
+        Task(1, "Titulo tarefa 1", "descricao do item", "01/01/2021", "18:00"),
+        Task(2, "Titulo tarefa 2", "descricao do item", "01/01/2021", "18:00"),
+        Task(3, "Titulo tarefa 3", "descricao do item", "02/01/2021", "18:00"),
+        Task(4, "Titulo tarefa 4", "descricao do item", "01/01/2021", "18:00"),
+        Task(5, "Titulo tarefa 5", "descricao do item", "02/01/2021", "18:00"),
+        Task(6, "Titulo tarefa 6", "descricao do item", "01/01/2021", "18:00")
     )
 
-    fun getList() = list.toList()
+    fun getList() = list
 
     fun insertTask(task: Task) {
         if (task.id == 0) {
