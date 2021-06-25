@@ -41,11 +41,13 @@ class MainActivity : AppCompatActivity() {
         adapterTasks.listenerEdit = {
             val intent = Intent(this, AddTaskActivity::class.java)
             intent.putExtra(AddTaskActivity.TASK_ID, it.id)
-            startActivityForResult(Intent(this, AddTaskActivity::class.java), CREATE_NEW_TASK)
+            startActivityForResult(intent, CREATE_NEW_TASK)
         }
 
         adapterTasks.listenerDelete = {
             Log.e("TAG", "listernerDelete $it")
+            TaskDataSource.delete(it)
+            updateList()
         }
     }
 
