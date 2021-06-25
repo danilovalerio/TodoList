@@ -1,8 +1,10 @@
 package projetos.danilo.todolist.ui
 
+import android.app.Activity
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import projetos.danilo.todolist.data.TaskDataSource
 import projetos.danilo.todolist.databinding.ActivityMainBinding
 
@@ -17,21 +19,40 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         setupListeners()
+        setupRecyclerView()
 
 
+    }
+
+    private fun setupRecyclerView() {
+        binding.rvTasks.adapter = adapterTasks
+        updateList()
+    }
+
+    private fun updateList() {
+        adapterTasks.submitList(TaskDataSource.getList())
     }
 
     private fun setupListeners() {
         binding.fabAdd.setOnClickListener{
             startActivityForResult(Intent(this, AddTaskActivity::class.java), CREATE_NEW_TASK)
         }
+
+        adapterTasks.listenerEdit = {
+            val intent = Intent(this, AddTaskActivity::class.java)
+            intent.putExtra(AddTaskActivity.TASK_ID, it.id)
+            startActivityForResult(Intent(this, AddTaskActivity::class.java), CREATE_NEW_TASK)
+        }
+
+        adapterTasks.listenerDelete = {
+            Log.e("TAG", "listernerDelete $it")
+        }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if(requestCode == CREATE_NEW_TASK) {
-            binding.rvTasks.adapter = adapterTasks
-            adapterTasks.submitList(TaskDataSource.getList())
+        if(requestCode == CREATE_NEW_TASK && resultCode == Activity.RESULT_OK) {
+            updateList()
         }
     }
 
