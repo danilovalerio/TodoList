@@ -2,14 +2,18 @@ package projetos.danilo.todolist.ui
 
 import android.app.Activity
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.view.View
-import projetos.danilo.todolist.data.TaskDataSource
+import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
+import projetos.danilo.todolist.data.TodoViewModel
 import projetos.danilo.todolist.databinding.ActivityMainBinding
+import projetos.danilo.todolist.model.Task
 
 class MainActivity : AppCompatActivity() {
+
+    lateinit var mTodoViewModel: TodoViewModel
 
     private lateinit var binding: ActivityMainBinding
     private val adapterTasks by lazy { TaskListAdapter() }
@@ -21,13 +25,20 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         binding.rvTasks.adapter = adapterTasks
-        updateList()
+
+        mTodoViewModel = ViewModelProvider(this).get(TodoViewModel::class.java)
 
         setupListeners()
+        setupObservers()
     }
 
-    private fun updateList() {
-        val list = TaskDataSource.getList()
+    private fun setupObservers() {
+        mTodoViewModel.getAllData.observe(this, Observer {
+            updateList(it)
+        })
+    }
+
+    private fun updateList(list: MutableList<Task>) {
         if (list.isEmpty()){
             binding.includeState.emptyState.visibility = View.VISIBLE
         } else {
@@ -40,7 +51,9 @@ class MainActivity : AppCompatActivity() {
 
     private fun setupListeners() {
         binding.fabAdd.setOnClickListener{
-            startActivityForResult(Intent(this, AddTaskActivity::class.java), CREATE_NEW_TASK)
+            startActivityForResult(
+                Intent(this, AddTaskActivity::class.java), CREATE_NEW_TASK
+            )
         }
 
         adapterTasks.listenerEdit = {
@@ -50,16 +63,14 @@ class MainActivity : AppCompatActivity() {
         }
 
         adapterTasks.listenerDelete = {
-            Log.e("TAG", "listernerDelete $it")
-            TaskDataSource.delete(it)
-            updateList()
+            mTodoViewModel.deleteTask(it)
         }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if(requestCode == CREATE_NEW_TASK && resultCode == Activity.RESULT_OK) {
-            updateList()
+            updateList(mTodoViewModel.getAllData.value as MutableList<Task>)
         }
     }
 

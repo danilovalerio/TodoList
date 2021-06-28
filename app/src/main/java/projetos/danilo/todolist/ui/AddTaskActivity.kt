@@ -3,10 +3,11 @@ package projetos.danilo.todolist.ui
 import android.app.Activity
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.timepicker.MaterialTimePicker
 import com.google.android.material.timepicker.TimeFormat
-import projetos.danilo.todolist.data.TaskDataSource
+import projetos.danilo.todolist.data.TodoViewModel
 import projetos.danilo.todolist.databinding.ActivityAddTaskBinding
 import projetos.danilo.todolist.extensions.format
 import projetos.danilo.todolist.extensions.text
@@ -14,6 +15,8 @@ import projetos.danilo.todolist.model.Task
 import java.util.*
 
 class AddTaskActivity : AppCompatActivity() {
+
+    lateinit var mTodoViewModel: TodoViewModel
 
     private lateinit var binding: ActivityAddTaskBinding
 
@@ -23,17 +26,19 @@ class AddTaskActivity : AppCompatActivity() {
         binding = ActivityAddTaskBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        setSupportActionBar(binding.toolbar)
+
+        mTodoViewModel = ViewModelProvider(this).get(TodoViewModel::class.java)
+
         if (intent.hasExtra(TASK_ID)) {
             val taskId = intent.getIntExtra(TASK_ID, 0)
-            TaskDataSource.findById(taskId)?.let {
+            mTodoViewModel.findViewById(taskId)?.let {
                 binding.tilTitle.text = it.title
                 binding.tilDescription.text = it.description
                 binding.tilDate.text = it.date
                 binding.tilTimer.text = it.hour
             }
         }
-
-        setSupportActionBar(binding.toolbar)
 
         setupListeners()
     }
@@ -77,7 +82,8 @@ class AddTaskActivity : AppCompatActivity() {
                 date = binding.tilDate.text,
                 id = intent.getIntExtra(TASK_ID, 0)
             )
-            TaskDataSource.insertTask(task)
+
+            mTodoViewModel.inserTask(task)
 
             setResult(Activity.RESULT_OK)
             finish()
