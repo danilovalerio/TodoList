@@ -13,6 +13,7 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
     private val adapterTasks by lazy { TaskListAdapter() }
+    //TODO: Criar adapter para o filtro dos dias, focando o dia atual
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

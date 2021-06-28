@@ -9,7 +9,8 @@ object TaskDataSource {
         Task(3, "Titulo tarefa 3", "descricao do item", "02/01/2021", "18:00"),
         Task(4, "Titulo tarefa 4", "descricao do item", "01/01/2021", "18:00"),
         Task(5, "Titulo tarefa 5", "descricao do item", "02/01/2021", "18:00"),
-        Task(6, "Titulo tarefa 6", "descricao do item", "01/01/2021", "18:00")
+        Task(5, "Titulo tarefa 6", "descricao do item", "02/01/2021", "18:00"),
+        Task(6, "Titulo tarefa 7", "descricao do item", "01/01/2021", "18:00")
     )
 
     fun getList() = list
