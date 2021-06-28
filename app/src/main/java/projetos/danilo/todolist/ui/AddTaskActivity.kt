@@ -33,6 +33,8 @@ class AddTaskActivity : AppCompatActivity() {
             }
         }
 
+        setSupportActionBar(binding.toolbar)
+
         setupListeners()
     }
 

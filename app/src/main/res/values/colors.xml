@@ -11,4 +11,9 @@
 
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+
+    <!--  Colors personalizadas  -->
+    <color name="blue">#0000FF</color>
+    <color name="red">#FF0000</color>
+    <color name="green">#118011</color>
 </resources>
