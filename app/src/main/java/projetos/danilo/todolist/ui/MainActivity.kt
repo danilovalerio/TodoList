@@ -3,12 +3,14 @@ package projetos.danilo.todolist.ui
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import projetos.danilo.todolist.data.TodoViewModel
 import projetos.danilo.todolist.databinding.ActivityMainBinding
+import projetos.danilo.todolist.model.DateFilter
 import projetos.danilo.todolist.model.Task
 
 class MainActivity : AppCompatActivity() {
@@ -17,6 +19,7 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
     private val adapterTasks by lazy { TaskListAdapter() }
+    private val adapterFilter by lazy { DatesFilterListAdapter() }
     //TODO: Criar adapter para o filtro dos dias, focando o dia atual
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -25,6 +28,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         binding.rvTasks.adapter = adapterTasks
+        binding.rvDaysFilter.adapter = adapterFilter
 
         mTodoViewModel = ViewModelProvider(this).get(TodoViewModel::class.java)
 
@@ -35,6 +39,10 @@ class MainActivity : AppCompatActivity() {
     private fun setupObservers() {
         mTodoViewModel.getAllData.observe(this, Observer {
             updateList(it)
+        })
+
+        mTodoViewModel.filterDates.observe(this, Observer {
+            updateDatesFilter(it)
         })
     }
 
@@ -47,6 +55,17 @@ class MainActivity : AppCompatActivity() {
 
         adapterTasks.submitList(list)
         adapterTasks.notifyDataSetChanged()
+    }
+
+    private fun updateDatesFilter(list: MutableList<DateFilter>) {
+//        if (list.isEmpty()){
+//            binding.includeState.emptyState.visibility = View.VISIBLE
+//        } else {
+//            binding.includeState.emptyState.visibility = View.GONE
+//        }
+
+        adapterFilter.submitList(list)
+        adapterFilter.notifyDataSetChanged()
     }
 
     private fun setupListeners() {
@@ -71,6 +90,7 @@ class MainActivity : AppCompatActivity() {
         super.onActivityResult(requestCode, resultCode, data)
         if(requestCode == CREATE_NEW_TASK && resultCode == Activity.RESULT_OK) {
             updateList(mTodoViewModel.getAllData.value as MutableList<Task>)
+            updateDatesFilter(mTodoViewModel.updateDatesFilter())
         }
     }
 

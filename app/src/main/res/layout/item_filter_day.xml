@@ -3,32 +3,34 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="80dp"
-    android:layout_height="100dp"
+    android:layout_height="wrap_content"
     android:layout_marginTop="2dp"
     android:layout_marginStart="8dp"
     android:layout_marginEnd="8dp"
+    android:layout_marginBottom="8dp"
     android:elevation="8dp"
-    app:cardCornerRadius="20dp"
-    android:backgroundTint="@color/black"
+    app:cardCornerRadius="14dp"
+    android:backgroundTint="@color/white"
     xmlns:tools="http://schemas.android.com/tools">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/cv_day_filter"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content">
 
         <TextView
-            android:id="@+id/tv_month"
+            android:id="@+id/tv_day_of_week"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingTop="8dp"
-            android:textColor="@color/white"
-            android:textSize="24sp"
+            android:textColor="@color/black"
+            android:textSize="18sp"
+            android:textAllCaps="true"
             android:textAlignment="center"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            tools:text="06"/>
+            tools:text="dom"/>
 
         <View
             android:id="@+id/view_divider"
@@ -36,23 +38,22 @@
             android:layout_height="1dp"
             android:layout_marginStart="4dp"
             android:layout_marginEnd="4dp"
-            android:background="@color/white"
-            app:layout_constraintTop_toBottomOf="@+id/tv_month"/>
+            android:background="@color/black"
+            app:layout_constraintTop_toBottomOf="@+id/tv_day_of_week"/>
 
         <TextView
             android:id="@+id/tv_day"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingBottom="12dp"
-            android:textColor="@color/white"
-            android:textSize="40sp"
+            android:textColor="@color/black"
+            android:textSize="20sp"
             android:textAlignment="center"
-            app:layout_constraintTop_toBottomOf="@+id/tv_month"
+            app:layout_constraintTop_toBottomOf="@+id/tv_day_of_week"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             tools:text="25"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
-
 
 </androidx.cardview.widget.CardView>
