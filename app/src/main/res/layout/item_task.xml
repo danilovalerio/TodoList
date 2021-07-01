@@ -27,14 +27,25 @@
         app:layout_constraintStart_toStartOf="@+id/tv_title"
         tools:text="01/01/2021 18:00"/>
 
-    <ImageView
-        android:id="@+id/iv_task_more"
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btn_edit_task"
         android:layout_width="36dp"
         android:layout_height="36dp"
-        android:src="@drawable/ic_more_vert"
+        android:background="@drawable/ic_edit"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/btn_delete_task"
+        app:layout_constraintBottom_toBottomOf="parent"/>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btn_delete_task"
+        android:layout_width="36dp"
+        android:layout_height="36dp"
+        android:background="@drawable/ic_delete"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"/>
+
+
 
 
 

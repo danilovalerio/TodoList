@@ -20,7 +20,6 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private val adapterTasks by lazy { TaskListAdapter() }
     private val adapterFilter by lazy { DatesFilterListAdapter() }
-    //TODO: Criar adapter para o filtro dos dias, focando o dia atual
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -58,12 +57,6 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun updateDatesFilter(list: MutableList<DateFilter>) {
-//        if (list.isEmpty()){
-//            binding.includeState.emptyState.visibility = View.VISIBLE
-//        } else {
-//            binding.includeState.emptyState.visibility = View.GONE
-//        }
-
         adapterFilter.submitList(list)
         adapterFilter.notifyDataSetChanged()
     }
