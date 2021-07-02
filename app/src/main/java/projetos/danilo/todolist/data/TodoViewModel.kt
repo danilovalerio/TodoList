@@ -23,19 +23,11 @@ class TodoViewModel(application: Application) : AndroidViewModel(application) {
     init {
         repository = TodoListRepository(todoListDao)
         getAllData = repository.getList
-
-//        updateAllData()
-//        updateDatesFilter()
     }
 
     fun checkDatabaseEmpty(todoList: List<Task>) {
         emptyDatabase.value = todoList.isEmpty()
     }
-
-//    val getAllData: MutableLiveData<MutableList<Task>> by lazy {
-//        MutableLiveData<MutableList<Task>>()
-//    }
-//    var allData = getAllData
 
     val filterDates: MutableLiveData<MutableList<DateFilter>> by lazy {
         MutableLiveData<MutableList<DateFilter>>()
@@ -47,7 +39,7 @@ class TodoViewModel(application: Application) : AndroidViewModel(application) {
 //        TaskDataSource.insertTask(task)
 //        updateAllData()
 
-        if (task.id == 0) {
+        if (task.id.toInt() == 0) {
             viewModelScope.launch(Dispatchers.IO) {
                 repository.insertTask(task)
             }
@@ -72,8 +64,15 @@ class TodoViewModel(application: Application) : AndroidViewModel(application) {
         }
     }
 
-    fun findViewById(id: Int): Task? {
-        return TaskDataSource.findById(id)
+    fun findTaskById(id: Long): Task? {
+        //Todo: Resolver bug para usar o repository.getTaskById sem inicializar a tempo
+        getAllData.value?.forEach {
+            if (it.id == id) {
+                return it
+            }
+        }
+
+        return null
     }
 
     private fun updateAllData() {

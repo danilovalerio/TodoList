@@ -19,4 +19,10 @@ interface TodoListDao {
 
     @Delete
     suspend fun deleteTask(task: Task)
+
+//    @Query("SELECT * FROM todolist_table WHERE todolist_table.id == :id LIMIT 1")
+    @Query("SELECT * FROM todolist_table WHERE id = :id")
+    fun getTaskById(id: Long): LiveData<Task?>
+
+
 }

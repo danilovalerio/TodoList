@@ -2,6 +2,7 @@ package projetos.danilo.todolist.ui
 
 import android.app.Activity
 import android.os.Bundle
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.datepicker.MaterialDatePicker
@@ -30,17 +31,21 @@ class AddTaskActivity : AppCompatActivity() {
 
         mTodoViewModel = ViewModelProvider(this).get(TodoViewModel::class.java)
 
-        if (intent.hasExtra(TASK_ID)) {
-            val taskId = intent.getIntExtra(TASK_ID, 0)
-            mTodoViewModel.findViewById(taskId)?.let {
-                binding.tilTitle.text = it.title
-                binding.tilDescription.text = it.description
-                binding.tilDate.text = it.date
-                binding.tilTimer.text = it.hour
-            }
-        }
-
         setupListeners()
+
+        val taskId = intent.getLongExtra(TASK_ID, 0)
+        setupObservers(taskId)
+
+//        if (intent.hasExtra(TASK_ID)) {
+//            val taskId = intent.getLongExtra(TASK_ID, 0)
+//
+//            mTodoViewModel.findTaskById(taskId)?.let {
+//                binding.tilTitle.text = it.title
+//                binding.tilDescription.text = it.description
+//                binding.tilDate.text = it.date
+//                binding.tilTimer.text = it.hour
+//            }
+//        }
     }
 
     private fun setupListeners() {
@@ -60,8 +65,9 @@ class AddTaskActivity : AppCompatActivity() {
                 .setTimeFormat(TimeFormat.CLOCK_24H)
                 .build()
 
-            timePicker.addOnPositiveButtonClickListener{
-                val minute = if (timePicker.minute in 0..9) "0${timePicker.minute}" else timePicker.minute
+            timePicker.addOnPositiveButtonClickListener {
+                val minute =
+                    if (timePicker.minute in 0..9) "0${timePicker.minute}" else timePicker.minute
                 val hour = if (timePicker.hour in 0..9) "0${timePicker.hour}" else timePicker.hour
 
                 binding.tilTimer.text = "$hour:$minute"
@@ -80,7 +86,7 @@ class AddTaskActivity : AppCompatActivity() {
                 description = binding.tilDescription.text,
                 hour = binding.tilTimer.text,
                 date = binding.tilDate.text,
-                id = intent.getIntExtra(TASK_ID, 0)
+                id = intent.getLongExtra(TASK_ID, 0)
             )
 
             mTodoViewModel.insertTask(task)
@@ -89,6 +95,20 @@ class AddTaskActivity : AppCompatActivity() {
             finish()
         }
 
+    }
+
+    private fun setupObservers(taskId: Long) {
+        mTodoViewModel.getAllData.observe(this, {
+            mTodoViewModel.checkDatabaseEmpty(it)
+            Log.i("GET_ALL_DATA", "allData: $it")
+
+            mTodoViewModel.findTaskById(taskId)?.let {
+                binding.tilTitle.text = it.title
+                binding.tilDescription.text = it.description
+                binding.tilDate.text = it.date
+                binding.tilTimer.text = it.hour
+            }
+        })
     }
 
     companion object {

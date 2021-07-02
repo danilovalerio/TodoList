@@ -18,4 +18,8 @@ class TodoListRepository(private val todoListDao: TodoListDao) {
     suspend fun deleteTask(task: Task) {
         todoListDao.deleteTask(task)
     }
+
+    fun getTaskById(id: Long): LiveData<Task?>{
+        return todoListDao.getTaskById(id)
+    }
 }

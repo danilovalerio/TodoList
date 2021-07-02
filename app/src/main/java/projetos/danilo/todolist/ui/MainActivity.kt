@@ -31,6 +31,7 @@ class MainActivity : AppCompatActivity() {
         mTodoViewModel = ViewModelProvider(this).get(TodoViewModel::class.java)
 
         setupListeners()
+        //TODO: Adicionar um loading
         setupObservers()
     }
 
