@@ -2,7 +2,11 @@ package projetos.danilo.todolist.data
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import projetos.danilo.todolist.extensions.dayOfWeekBR
 import projetos.danilo.todolist.model.DateFilter
 import projetos.danilo.todolist.model.Task
@@ -11,6 +15,11 @@ import java.util.*
 class TodoViewModel(application: Application) : AndroidViewModel(application) {
 
     private val taskDataSource = TaskDataSource
+
+    private val todoListDao = TodoListDatabase.getDatabase(application).todoListDao()
+    private val repository: TodoListRepository
+
+    val getAllTask: LiveData<List<Task>>
 
     val getAllData: MutableLiveData<MutableList<Task>> by lazy {
         MutableLiveData<MutableList<Task>>()
@@ -24,19 +33,35 @@ class TodoViewModel(application: Application) : AndroidViewModel(application) {
 //    var datesOfFilter = filterDates
 
     init {
+        repository = TodoListRepository(todoListDao)
+        getAllTask = repository.getList
+
         updateAllData()
         updateDatesFilter()
     }
 
-    fun inserTask(task: Task) {
+    fun insertTask(task: Task) {
         TaskDataSource.insertTask(task)
         updateAllData()
+        viewModelScope.launch(Dispatchers.IO) {
+            repository.insertTask(task)
+        }
+    }
+
+    fun updateTask(task: Task) {
+        viewModelScope.launch(Dispatchers.IO) {
+            repository.updateTask(task)
+        }
     }
 
     fun deleteTask(task: Task) {
         TaskDataSource.delete(task)
         updateAllData()
         updateDatesFilter()
+
+        viewModelScope.launch(Dispatchers.IO) {
+            repository.deleteTask(task)
+        }
     }
 
     fun findViewById(id: Int): Task? {
