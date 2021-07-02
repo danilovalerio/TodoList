@@ -83,7 +83,7 @@ class AddTaskActivity : AppCompatActivity() {
                 id = intent.getIntExtra(TASK_ID, 0)
             )
 
-            mTodoViewModel.inserTask(task)
+            mTodoViewModel.insertTask(task)
 
             setResult(Activity.RESULT_OK)
             finish()

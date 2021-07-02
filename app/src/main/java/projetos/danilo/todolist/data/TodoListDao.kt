@@ -5,9 +5,10 @@ import androidx.room.*
 import projetos.danilo.todolist.model.Task
 import projetos.danilo.todolist.utils.Constants
 
+@Dao
 interface TodoListDao {
 
-    @Query("SELECT * FROM ${Constants.TODO_LIST_TABLE} ORDER BY id ASC")
+    @Query("SELECT * FROM todolist_table ORDER BY id ASC")
     fun getList(): LiveData<List<Task>>
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)

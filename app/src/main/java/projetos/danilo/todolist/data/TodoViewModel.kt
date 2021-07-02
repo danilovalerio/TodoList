@@ -13,17 +13,28 @@ import projetos.danilo.todolist.model.Task
 import java.util.*
 
 class TodoViewModel(application: Application) : AndroidViewModel(application) {
-
-    private val taskDataSource = TaskDataSource
-
     private val todoListDao = TodoListDatabase.getDatabase(application).todoListDao()
     private val repository: TodoListRepository
 
-    val getAllTask: LiveData<List<Task>>
+    private val emptyDatabase: MutableLiveData<Boolean> = MutableLiveData(false)
 
-    val getAllData: MutableLiveData<MutableList<Task>> by lazy {
-        MutableLiveData<MutableList<Task>>()
+    val getAllData: LiveData<List<Task>>
+
+    init {
+        repository = TodoListRepository(todoListDao)
+        getAllData = repository.getList
+
+//        updateAllData()
+//        updateDatesFilter()
     }
+
+    fun checkDatabaseEmpty(todoList: List<Task>) {
+        emptyDatabase.value = todoList.isEmpty()
+    }
+
+//    val getAllData: MutableLiveData<MutableList<Task>> by lazy {
+//        MutableLiveData<MutableList<Task>>()
+//    }
 //    var allData = getAllData
 
     val filterDates: MutableLiveData<MutableList<DateFilter>> by lazy {
@@ -32,19 +43,16 @@ class TodoViewModel(application: Application) : AndroidViewModel(application) {
 
 //    var datesOfFilter = filterDates
 
-    init {
-        repository = TodoListRepository(todoListDao)
-        getAllTask = repository.getList
-
-        updateAllData()
-        updateDatesFilter()
-    }
-
     fun insertTask(task: Task) {
-        TaskDataSource.insertTask(task)
-        updateAllData()
-        viewModelScope.launch(Dispatchers.IO) {
-            repository.insertTask(task)
+//        TaskDataSource.insertTask(task)
+//        updateAllData()
+
+        if (task.id == 0) {
+            viewModelScope.launch(Dispatchers.IO) {
+                repository.insertTask(task)
+            }
+        } else {
+            updateTask(task)
         }
     }
 
@@ -55,9 +63,9 @@ class TodoViewModel(application: Application) : AndroidViewModel(application) {
     }
 
     fun deleteTask(task: Task) {
-        TaskDataSource.delete(task)
-        updateAllData()
-        updateDatesFilter()
+//        TaskDataSource.delete(task)
+//        updateAllData()
+//        updateDatesFilter()
 
         viewModelScope.launch(Dispatchers.IO) {
             repository.deleteTask(task)
@@ -69,7 +77,7 @@ class TodoViewModel(application: Application) : AndroidViewModel(application) {
     }
 
     private fun updateAllData() {
-        getAllData.postValue(TaskDataSource.getList())
+//        getAllData.postValue(TaskDataSource.getList())
         filterDates.postValue(updateDatesFilter())
     }
 

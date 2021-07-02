@@ -3,7 +3,6 @@ package projetos.danilo.todolist.ui
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
@@ -36,7 +35,8 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setupObservers() {
-        mTodoViewModel.getAllData.observe(this, Observer {
+        mTodoViewModel.getAllData.observe(this, {
+            mTodoViewModel.checkDatabaseEmpty(it)
             updateList(it)
         })
 
@@ -45,7 +45,7 @@ class MainActivity : AppCompatActivity() {
         })
     }
 
-    private fun updateList(list: MutableList<Task>) {
+    private fun updateList(list: List<Task>) {
         if (list.isEmpty()){
             binding.includeState.emptyState.visibility = View.VISIBLE
         } else {
@@ -82,8 +82,9 @@ class MainActivity : AppCompatActivity() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if(requestCode == CREATE_NEW_TASK && resultCode == Activity.RESULT_OK) {
-            updateList(mTodoViewModel.getAllData.value as MutableList<Task>)
-            updateDatesFilter(mTodoViewModel.updateDatesFilter())
+            updateList(mTodoViewModel.getAllData.value as List<Task>)
+//            updateList(mTodoViewModel.getAllData.value as MutableList<Task>)
+//            updateDatesFilter(mTodoViewModel.updateDatesFilter())
         }
     }
 
