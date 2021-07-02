@@ -1,4 +1,8 @@
 package projetos.danilo.todolist.data
 
-interface TodoListDatabase {
+import androidx.room.RoomDatabase
+
+abstract class TodoListDatabase: RoomDatabase() {
+
+    abstract fun todoListDao():
 }
