@@ -57,23 +57,6 @@ class MainActivity : AppCompatActivity() {
         })
     }
 
-    private fun updateList(list: List<Task>) {
-        if (list.isEmpty()){
-            binding.includeState.emptyState.visibility = View.VISIBLE
-        } else {
-            binding.includeState.emptyState.visibility = View.GONE
-        }
-
-        adapterTasks.submitList(list)
-        adapterTasks.notifyDataSetChanged()
-    }
-
-    private fun updateDatesFilter(list: MutableList<String>) {
-        adapterFilter.dateSelectedClean()
-        adapterFilter.submitList(list)
-        adapterFilter.notifyDataSetChanged()
-    }
-
     private fun setupListeners() {
         binding.fabAdd.setOnClickListener{
             startActivityForResult(
@@ -88,6 +71,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         adapterTasks.listenerDelete = {
+            visibleLoading()
             mTodoViewModel.deleteTask(it)
         }
 
@@ -114,9 +98,27 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    private fun updateList(list: List<Task>) {
+        if (list.isEmpty()){
+            binding.includeState.emptyState.visibility = View.VISIBLE
+        } else {
+            binding.includeState.emptyState.visibility = View.GONE
+        }
+
+        adapterTasks.submitList(list)
+        adapterTasks.notifyDataSetChanged()
+    }
+
+    private fun updateDatesFilter(list: MutableList<String>) {
+        adapterFilter.dateSelectedClean()
+        adapterFilter.submitList(list)
+        adapterFilter.notifyDataSetChanged()
+    }
+
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if(requestCode == CREATE_NEW_TASK && resultCode == Activity.RESULT_OK) {
+            visibleLoading()
             updateList(mTodoViewModel.getAllData.value as List<Task>)
         }
     }
