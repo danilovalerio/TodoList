@@ -11,11 +11,11 @@
     android:elevation="8dp"
     android:outlineSpotShadowColor="@color/black"
     app:cardCornerRadius="14dp"
-    android:backgroundTint="@color/white"
+    android:id="@+id/cv_day_filter"
     xmlns:tools="http://schemas.android.com/tools">
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/cv_day_filter"
+        android:id="@+id/cl_day_filter"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 

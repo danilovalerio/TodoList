@@ -29,8 +29,8 @@ class TodoViewModel(application: Application) : AndroidViewModel(application) {
         emptyDatabase.value = todoList.isEmpty()
     }
 
-    val filterDates: MutableLiveData<MutableList<DateFilter>> by lazy {
-        MutableLiveData<MutableList<DateFilter>>()
+    val filterDates: MutableLiveData<MutableList<String>> by lazy {
+        MutableLiveData<MutableList<String>>()
     }
 
 //    var datesOfFilter = filterDates
@@ -75,14 +75,14 @@ class TodoViewModel(application: Application) : AndroidViewModel(application) {
         return null
     }
 
-    private fun updateAllData() {
-//        getAllData.postValue(TaskDataSource.getList())
+    fun updateFilterAllData() {
         filterDates.postValue(updateDatesFilter())
     }
 
-    fun updateDatesFilter(): MutableList<DateFilter> {
-        val listFilter = TaskDataSource.getList().distinctBy { it.date }
-        val dates: MutableList<DateFilter> = mutableListOf()
+    private fun updateDatesFilter(): MutableList<String> {
+        val listFilter = getAllData.value?.distinctBy { it.date }
+        val datesOld: MutableList<DateFilter> = mutableListOf()
+        val dates: MutableList<String> = mutableListOf()
 
         listFilter?.forEach {
             if (it.date.isNotEmpty()) {
@@ -90,7 +90,8 @@ class TodoViewModel(application: Application) : AndroidViewModel(application) {
                 val month = it.date.substring(3, 5).toInt()
                 val year = it.date.substring(6, 10).toInt()
                 val dayOfWeek = Date().dayOfWeekBR(it.date)
-                dates.add(DateFilter(day, month, year, dayOfWeek))
+//                dates.add(DateFilter(day, month, year, dayOfWeek))
+                dates.add(it.date)
             }
         }
 

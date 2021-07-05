@@ -39,6 +39,7 @@ class MainActivity : AppCompatActivity() {
         mTodoViewModel.getAllData.observe(this, {
             mTodoViewModel.checkDatabaseEmpty(it)
             updateList(it)
+            mTodoViewModel.updateFilterAllData()
         })
 
         mTodoViewModel.filterDates.observe(this, Observer {
@@ -57,7 +58,7 @@ class MainActivity : AppCompatActivity() {
         adapterTasks.notifyDataSetChanged()
     }
 
-    private fun updateDatesFilter(list: MutableList<DateFilter>) {
+    private fun updateDatesFilter(list: MutableList<String>) {
         adapterFilter.submitList(list)
         adapterFilter.notifyDataSetChanged()
     }
