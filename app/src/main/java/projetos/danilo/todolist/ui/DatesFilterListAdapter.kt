@@ -53,7 +53,6 @@ class DatesFilterListAdapter : ListAdapter<String, DatesFilterListAdapter.DateFi
 
             dateSelectedClean = {
                 dateSelected = ""
-                notifyDataSetChanged()
             }
         }
 
@@ -73,7 +72,6 @@ class DatesFilterListAdapter : ListAdapter<String, DatesFilterListAdapter.DateFi
                 binding.tvDay.setTextColor(Color.WHITE)
                 binding.tvDayOfWeek.setTextColor(Color.WHITE)
                 binding.viewDivider.setBackgroundColor(Color.WHITE)
-
             } else {
                 binding.clDayFilter.setBackgroundColor(Color.WHITE)
                 binding.tvDay.setTextColor(Color.BLACK)

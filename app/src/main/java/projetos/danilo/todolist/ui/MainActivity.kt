@@ -3,7 +3,6 @@ package projetos.danilo.todolist.ui
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
@@ -11,7 +10,6 @@ import androidx.lifecycle.ViewModelProvider
 import projetos.danilo.todolist.R
 import projetos.danilo.todolist.data.TodoViewModel
 import projetos.danilo.todolist.databinding.ActivityMainBinding
-import projetos.danilo.todolist.model.DateFilter
 import projetos.danilo.todolist.model.Task
 
 class MainActivity : AppCompatActivity() {
