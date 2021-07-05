@@ -8,7 +8,7 @@ import projetos.danilo.todolist.utils.Constants
 @Dao
 interface TodoListDao {
 
-    @Query("SELECT * FROM todolist_table ORDER BY id ASC")
+    @Query("SELECT * FROM todolist_table ORDER BY date ASC")
     fun getList(): LiveData<List<Task>>
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
@@ -20,9 +20,10 @@ interface TodoListDao {
     @Delete
     suspend fun deleteTask(task: Task)
 
-//    @Query("SELECT * FROM todolist_table WHERE todolist_table.id == :id LIMIT 1")
     @Query("SELECT * FROM todolist_table WHERE id = :id")
     fun getTaskById(id: Long): LiveData<Task?>
 
+    @Query("SELECT * FROM todolist_table WHERE date LIKE :searchQuery")
+    fun searchDataBase(searchQuery: String): LiveData<List<Task>>
 
 }

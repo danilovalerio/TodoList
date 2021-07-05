@@ -55,10 +55,6 @@ class TodoViewModel(application: Application) : AndroidViewModel(application) {
     }
 
     fun deleteTask(task: Task) {
-//        TaskDataSource.delete(task)
-//        updateAllData()
-//        updateDatesFilter()
-
         viewModelScope.launch(Dispatchers.IO) {
             repository.deleteTask(task)
         }
@@ -73,6 +69,10 @@ class TodoViewModel(application: Application) : AndroidViewModel(application) {
         }
 
         return null
+    }
+
+    fun searchByDate(date: String): LiveData<List<Task>> {
+        return repository.searchByDateQuery(date)
     }
 
     fun updateFilterAllData() {
@@ -96,6 +96,10 @@ class TodoViewModel(application: Application) : AndroidViewModel(application) {
         }
 
         return dates
+    }
+
+    fun getList(): List<Task> {
+        return getAllData.value!!
     }
 
 }

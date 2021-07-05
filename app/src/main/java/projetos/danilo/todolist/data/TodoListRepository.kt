@@ -22,4 +22,8 @@ class TodoListRepository(private val todoListDao: TodoListDao) {
     fun getTaskById(id: Long): LiveData<Task?>{
         return todoListDao.getTaskById(id)
     }
+
+    fun searchByDateQuery(searchDate: String): LiveData<List<Task>> {
+        return todoListDao.searchDataBase(searchDate)
+    }
 }

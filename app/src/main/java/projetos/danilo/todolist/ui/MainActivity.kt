@@ -3,10 +3,12 @@ package projetos.danilo.todolist.ui
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import projetos.danilo.todolist.R
 import projetos.danilo.todolist.data.TodoViewModel
 import projetos.danilo.todolist.databinding.ActivityMainBinding
 import projetos.danilo.todolist.model.DateFilter
@@ -39,6 +41,7 @@ class MainActivity : AppCompatActivity() {
         mTodoViewModel.getAllData.observe(this, {
             mTodoViewModel.checkDatabaseEmpty(it)
             updateList(it)
+            binding.tvFilterActive.text = getString(R.string.label_all_tasks_by_date_desc)
             mTodoViewModel.updateFilterAllData()
         })
 
@@ -59,6 +62,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun updateDatesFilter(list: MutableList<String>) {
+        adapterFilter.dateSelectedClean()
         adapterFilter.submitList(list)
         adapterFilter.notifyDataSetChanged()
     }
@@ -79,14 +83,30 @@ class MainActivity : AppCompatActivity() {
         adapterTasks.listenerDelete = {
             mTodoViewModel.deleteTask(it)
         }
+
+        adapterFilter.listenerClick = {
+            //TODO: Filtro por data selecionada
+            Log.i("CLICK", "item clicado: $it")
+            mTodoViewModel.searchByDate(it).observe(this, Observer {
+                Log.i("LISTA FILTRADA:","$it")
+                updateList(it)
+            })
+            binding.tvFilterActive.text = getString(
+                R.string.label_tasks_filtered_by_date,
+                it
+            )
+        }
+
+        binding.btnCleanFilter.setOnClickListener {
+            updateList(mTodoViewModel.getList())
+            mTodoViewModel.updateFilterAllData()
+        }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if(requestCode == CREATE_NEW_TASK && resultCode == Activity.RESULT_OK) {
             updateList(mTodoViewModel.getAllData.value as List<Task>)
-//            updateList(mTodoViewModel.getAllData.value as MutableList<Task>)
-//            updateDatesFilter(mTodoViewModel.updateDatesFilter())
         }
     }
 
