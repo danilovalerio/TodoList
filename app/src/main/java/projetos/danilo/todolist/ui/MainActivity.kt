@@ -85,11 +85,8 @@ class MainActivity : AppCompatActivity() {
         }
 
         adapterFilter.listenerClick = {
-            //TODO: Filtro por data selecionada
-            Log.i("CLICK", "item clicado: $it")
-            mTodoViewModel.searchByDate(it).observe(this, Observer {
-                Log.i("LISTA FILTRADA:","$it")
-                updateList(it)
+            mTodoViewModel.searchByDate(it).observe(this, Observer { filteredList ->
+                updateList(filteredList)
             })
             binding.tvFilterActive.text = getString(
                 R.string.label_tasks_filtered_by_date,
