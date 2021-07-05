@@ -31,8 +31,16 @@ class MainActivity : AppCompatActivity() {
         mTodoViewModel = ViewModelProvider(this).get(TodoViewModel::class.java)
 
         setupListeners()
-        //TODO: Adicionar um loading
+        visibleLoading()
         setupObservers()
+    }
+
+    private fun visibleLoading() {
+        binding.includeStateLoading.clLoadingState.visibility = View.VISIBLE
+    }
+
+    private fun goneLoading() {
+        binding.includeStateLoading.clLoadingState.visibility = View.GONE
     }
 
     private fun setupObservers() {
@@ -41,6 +49,7 @@ class MainActivity : AppCompatActivity() {
             updateList(it)
             binding.tvFilterActive.text = getString(R.string.label_all_tasks_by_date_desc)
             mTodoViewModel.updateFilterAllData()
+            goneLoading()
         })
 
         mTodoViewModel.filterDates.observe(this, Observer {
@@ -83,18 +92,25 @@ class MainActivity : AppCompatActivity() {
         }
 
         adapterFilter.listenerClick = {
+            visibleLoading()
             mTodoViewModel.searchByDate(it).observe(this, Observer { filteredList ->
                 updateList(filteredList)
             })
+            goneLoading()
+
             binding.tvFilterActive.text = getString(
                 R.string.label_tasks_filtered_by_date,
                 it
             )
+            binding.btnCleanFilter.isEnabled = true
         }
 
         binding.btnCleanFilter.setOnClickListener {
+            visibleLoading()
             updateList(mTodoViewModel.getList())
             mTodoViewModel.updateFilterAllData()
+            goneLoading()
+            binding.btnCleanFilter.isEnabled = false
         }
     }
 

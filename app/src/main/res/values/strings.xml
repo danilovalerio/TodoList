@@ -15,5 +15,6 @@
     <!--  Labels filters  -->
     <string name="label_all_tasks_by_date_desc">Ordenadas por data</string>
     <string name="label_tasks_filtered_by_date">Filtrada pela data %1$s</string>
+    <string name="label_btn_clean_filter">Limpar filtro</string>
 
 </resources>

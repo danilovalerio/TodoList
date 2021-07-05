@@ -37,7 +37,14 @@
     <include
         android:id="@+id/include_state"
         layout="@layout/empty_state"
+        android:visibility="gone"
         tools:visibility="gone" />
+
+    <include
+        android:id="@+id/include_state_loading"
+        layout="@layout/loading_state"
+        android:visibility="gone"
+        tools:visibility="visible" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_tasks"
@@ -59,7 +66,6 @@
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
         android:contentDescription="@string/description_label_new_task"
-        android:tint="@color/white"
         android:src="@drawable/ic_add"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
@@ -83,7 +89,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
-        android:text="Limpar filtro"
+        android:text="@string/label_btn_clean_filter"
+        android:enabled="false"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/fab_add"
         app:layout_constraintStart_toStartOf="parent"
