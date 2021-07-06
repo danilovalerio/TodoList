@@ -7,8 +7,10 @@
     <string name="label_timer">Hora</string>
     <string name="label_esc">Cancelar</string>
     <string name="label_button_new_task">Criar tarefa</string>
+    <string name="label_button_update_task">Atualizar tarefa</string>
     <string name="label_tasks">Tarefas</string>
     <string name="description_label_new_task">Nova Tarefa</string>
+    <string name="description_label_update_task">Atualizar Tarefa</string>
     <string name="label_edit">Editar</string>
     <string name="label_delete">Deletar</string>
 
@@ -16,5 +18,7 @@
     <string name="label_all_tasks_by_date_desc">Ordenadas por data</string>
     <string name="label_tasks_filtered_by_date">Filtrada pela data %1$s</string>
     <string name="label_btn_clean_filter">Limpar filtro</string>
+    <string name="label_loading">carregando...</string>
+    <string name="label_no_tasks_pending">Ops! Você não possui\nNenhuma tarefa</string>
 
 </resources>

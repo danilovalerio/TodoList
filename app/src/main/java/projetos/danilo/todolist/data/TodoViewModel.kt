@@ -33,12 +33,7 @@ class TodoViewModel(application: Application) : AndroidViewModel(application) {
         MutableLiveData<MutableList<String>>()
     }
 
-//    var datesOfFilter = filterDates
-
     fun insertTask(task: Task) {
-//        TaskDataSource.insertTask(task)
-//        updateAllData()
-
         if (task.id.toInt() == 0) {
             viewModelScope.launch(Dispatchers.IO) {
                 repository.insertTask(task)
@@ -61,7 +56,6 @@ class TodoViewModel(application: Application) : AndroidViewModel(application) {
     }
 
     fun findTaskById(id: Long): Task? {
-        //Todo: Resolver bug para usar o repository.getTaskById sem inicializar a tempo
         getAllData.value?.forEach {
             if (it.id == id) {
                 return it
@@ -81,16 +75,10 @@ class TodoViewModel(application: Application) : AndroidViewModel(application) {
 
     private fun updateDatesFilter(): MutableList<String> {
         val listFilter = getAllData.value?.distinctBy { it.date }
-        val datesOld: MutableList<DateFilter> = mutableListOf()
         val dates: MutableList<String> = mutableListOf()
 
         listFilter?.forEach {
             if (it.date.isNotEmpty()) {
-                val day = it.date.take(2).toInt()
-                val month = it.date.substring(3, 5).toInt()
-                val year = it.date.substring(6, 10).toInt()
-                val dayOfWeek = Date().dayOfWeekBR(it.date)
-//                dates.add(DateFilter(day, month, year, dayOfWeek))
                 dates.add(it.date)
             }
         }

@@ -8,7 +8,6 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import projetos.danilo.todolist.databinding.ItemFilterDayBinding
-import projetos.danilo.todolist.model.Task
 import java.util.*
 import java.text.SimpleDateFormat
 
@@ -33,9 +32,6 @@ class DatesFilterListAdapter : ListAdapter<String, DatesFilterListAdapter.DateFi
         private val binding: ItemFilterDayBinding
     ): RecyclerView.ViewHolder(binding.root) {
         fun bind(item: String) {
-            val c: Date = Calendar.getInstance().time
-            val sdf: SimpleDateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
-            val dateFormatted = sdf.format(c)
 
             val itemDate: String = item
             val strDayOfWeek = formatStringToDayOfWeek(item)
@@ -43,7 +39,7 @@ class DatesFilterListAdapter : ListAdapter<String, DatesFilterListAdapter.DateFi
             formatChosenDate(itemDate, dateSelected)
 
             binding.tvDayOfWeek.text = strDayOfWeek
-            binding.tvDay.text = item.take(2)
+            binding.tvDay.text = item.take(LENGTH_TWO)
 
             binding.cvDayFilter.setOnClickListener {
                 listenerClick(item)
@@ -58,12 +54,11 @@ class DatesFilterListAdapter : ListAdapter<String, DatesFilterListAdapter.DateFi
 
         fun formatStringToDayOfWeek(dateItem: String): String {
             val sdf: SimpleDateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
-            val date: Date = sdf.parse(dateItem)
-            val sdfDayOfWeek: SimpleDateFormat = SimpleDateFormat("dd/MM/yyyy E", Locale.getDefault())
-            val dateFormatted = sdfDayOfWeek.format(date)
-            val diaDaSemana = dateFormatted.takeLast(3)
-            val diaDoMes = dateFormatted.take(2)
-            return diaDaSemana
+            val date: Date = sdf.parse(dateItem) ?: Date()
+            val sdfDayOfWeek: SimpleDateFormat =
+                SimpleDateFormat("dd/MM/yyyy E", Locale.getDefault())
+            val dateFormatted = sdfDayOfWeek.format(date).split(" ")
+            return dateFormatted[INDEX_1].replace(".","")
         }
 
         fun formatChosenDate(date: String, currentDate: String) {
@@ -79,6 +74,11 @@ class DatesFilterListAdapter : ListAdapter<String, DatesFilterListAdapter.DateFi
                 binding.viewDivider.setBackgroundColor(Color.BLACK)
             }
         }
+    }
+
+    companion object {
+        const val LENGTH_TWO = 2
+        const val INDEX_1 = 1
     }
 }
 

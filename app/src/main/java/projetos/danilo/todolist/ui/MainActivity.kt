@@ -95,6 +95,7 @@ class MainActivity : AppCompatActivity() {
             mTodoViewModel.updateFilterAllData()
             goneLoading()
             binding.btnCleanFilter.isEnabled = false
+            binding.tvFilterActive.text = getString(R.string.label_all_tasks_by_date_desc)
         }
     }
 

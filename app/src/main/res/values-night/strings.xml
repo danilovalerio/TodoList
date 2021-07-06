@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="label_no_tasks_pending">Ops! Você não possui\nNenhuma tarefa</string>
+</resources>

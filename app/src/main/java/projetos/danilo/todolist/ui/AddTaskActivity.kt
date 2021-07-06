@@ -8,6 +8,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.timepicker.MaterialTimePicker
 import com.google.android.material.timepicker.TimeFormat
+import projetos.danilo.todolist.R
 import projetos.danilo.todolist.data.TodoViewModel
 import projetos.danilo.todolist.databinding.ActivityAddTaskBinding
 import projetos.danilo.todolist.extensions.format
@@ -34,6 +35,15 @@ class AddTaskActivity : AppCompatActivity() {
         setupListeners()
 
         val taskId = intent.getLongExtra(TASK_ID, 0)
+
+        if (taskId != null && taskId > 0) {
+            binding.btnNewTask.text = getString(R.string.label_button_update_task)
+            binding.toolbar.title = getString(R.string.label_button_update_task)
+        } else {
+            binding.btnNewTask.text = getString(R.string.label_button_new_task)
+            binding.toolbar.title = getString(R.string.label_button_new_task)
+        }
+
         setupObservers(taskId)
 
 //        if (intent.hasExtra(TASK_ID)) {
