@@ -2,7 +2,6 @@ package projetos.danilo.todolist.ui
 
 import android.app.Activity
 import android.os.Bundle
-import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.datepicker.MaterialDatePicker
@@ -18,7 +17,7 @@ import java.util.*
 
 class AddTaskActivity : AppCompatActivity() {
 
-    lateinit var mTodoViewModel: TodoViewModel
+    private lateinit var mTodoViewModel: TodoViewModel
 
     private lateinit var binding: ActivityAddTaskBinding
 
@@ -36,7 +35,7 @@ class AddTaskActivity : AppCompatActivity() {
 
         val taskId = intent.getLongExtra(TASK_ID, 0)
 
-        if (taskId != null && taskId > 0) {
+        if (taskId > 0) {
             binding.btnNewTask.text = getString(R.string.label_button_update_task)
             binding.toolbar.title = getString(R.string.label_button_update_task)
         } else {
@@ -45,25 +44,14 @@ class AddTaskActivity : AppCompatActivity() {
         }
 
         setupObservers(taskId)
-
-//        if (intent.hasExtra(TASK_ID)) {
-//            val taskId = intent.getLongExtra(TASK_ID, 0)
-//
-//            mTodoViewModel.findTaskById(taskId)?.let {
-//                binding.tilTitle.text = it.title
-//                binding.tilDescription.text = it.description
-//                binding.tilDate.text = it.date
-//                binding.tilTimer.text = it.hour
-//            }
-//        }
     }
 
     private fun setupListeners() {
         binding.tilDate.editText?.setOnClickListener {
             val datePicker = MaterialDatePicker.Builder.datePicker().build()
             datePicker.addOnPositiveButtonClickListener {
-                val timeZone = TimeZone.getDefault()
-                val offset = timeZone.getOffset(Date().time) * -1
+//                val timeZone = TimeZone.getDefault()
+//                val offset = timeZone.getOffset(Date().time) * -1
 //                binding.tilDate.text = Date(it * offset).format()
                 binding.tilDate.text = Date(it).format()
             }
@@ -110,13 +98,12 @@ class AddTaskActivity : AppCompatActivity() {
     private fun setupObservers(taskId: Long) {
         mTodoViewModel.getAllData.observe(this, {
             mTodoViewModel.checkDatabaseEmpty(it)
-            Log.i("GET_ALL_DATA", "allData: $it")
 
-            mTodoViewModel.findTaskById(taskId)?.let {
-                binding.tilTitle.text = it.title
-                binding.tilDescription.text = it.description
-                binding.tilDate.text = it.date
-                binding.tilTimer.text = it.hour
+            mTodoViewModel.findTaskById(taskId)?.let { task ->
+                binding.tilTitle.text = task.title
+                binding.tilDescription.text = task.description
+                binding.tilDate.text = task.date
+                binding.tilTimer.text = task.hour
             }
         })
     }

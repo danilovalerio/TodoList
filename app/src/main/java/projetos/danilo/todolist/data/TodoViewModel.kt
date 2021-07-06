@@ -7,10 +7,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import projetos.danilo.todolist.extensions.dayOfWeekBR
-import projetos.danilo.todolist.model.DateFilter
 import projetos.danilo.todolist.model.Task
-import java.util.*
 
 class TodoViewModel(application: Application) : AndroidViewModel(application) {
     private val todoListDao = TodoListDatabase.getDatabase(application).todoListDao()
@@ -35,24 +32,18 @@ class TodoViewModel(application: Application) : AndroidViewModel(application) {
 
     fun insertTask(task: Task) {
         if (task.id.toInt() == 0) {
-            viewModelScope.launch(Dispatchers.IO) {
-                repository.insertTask(task)
-            }
+            viewModelScope.launch(Dispatchers.IO) { repository.insertTask(task) }
         } else {
             updateTask(task)
         }
     }
 
     fun updateTask(task: Task) {
-        viewModelScope.launch(Dispatchers.IO) {
-            repository.updateTask(task)
-        }
+        viewModelScope.launch(Dispatchers.IO) { repository.updateTask(task) }
     }
 
     fun deleteTask(task: Task) {
-        viewModelScope.launch(Dispatchers.IO) {
-            repository.deleteTask(task)
-        }
+        viewModelScope.launch(Dispatchers.IO) { repository.deleteTask(task) }
     }
 
     fun findTaskById(id: Long): Task? {
