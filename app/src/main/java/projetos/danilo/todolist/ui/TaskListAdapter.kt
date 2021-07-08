@@ -1,6 +1,7 @@
 package projetos.danilo.todolist.ui
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
@@ -11,8 +12,8 @@ import projetos.danilo.todolist.model.Task
 class TaskListAdapter : ListAdapter<Task, TaskListAdapter.TaskViewHolder>(DiffCallback()) {
 
     //Create functions empty type unit with param Task
-    var listenerEdit : (Task) -> Unit = {}
-    var listenerDelete : (Task) -> Unit = {}
+    var listenerEdit: (Task) -> Unit = {}
+    var listenerDelete: (Task) -> Unit = {}
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TaskViewHolder {
         val inflater = LayoutInflater.from(parent.context)
@@ -26,10 +27,15 @@ class TaskListAdapter : ListAdapter<Task, TaskListAdapter.TaskViewHolder>(DiffCa
 
     inner class TaskViewHolder(
         private val binding: ItemTaskBinding
-    ): RecyclerView.ViewHolder(binding.root) {
+    ) : RecyclerView.ViewHolder(binding.root) {
         fun bind(item: Task) {
             binding.tvTitle.text = item.title
             binding.tvDate.text = "${item.date} ${item.hour}"
+            if (item.description.isNotBlank()) {
+                binding.tvDescription.text = item.description
+            } else {
+                binding.tvDescription.visibility = View.GONE
+            }
 
             binding.btnDeleteTask.setOnClickListener {
                 listenerDelete(item)

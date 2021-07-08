@@ -44,6 +44,8 @@ class AddTaskActivity : AppCompatActivity() {
         }
 
         setupObservers(taskId)
+
+        binding.tilTitle.requestFocus()
     }
 
     private fun setupListeners() {
