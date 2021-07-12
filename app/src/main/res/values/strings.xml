@@ -13,6 +13,8 @@
     <string name="description_label_update_task">Atualizar Tarefa</string>
     <string name="label_edit">Editar</string>
     <string name="label_delete">Deletar</string>
+    <string name="label_new_task_success">Tarefa criada com sucesso!</string>
+    <string name="label_update_task_success">Tarefa Atualizada com sucesso!</string>
 
     <!--  Labels filters  -->
     <string name="label_all_tasks_by_date_desc">Ordenadas por data</string>

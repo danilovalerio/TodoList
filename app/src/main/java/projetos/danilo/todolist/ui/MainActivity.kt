@@ -7,6 +7,7 @@ import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import com.google.android.material.snackbar.Snackbar
 import projetos.danilo.todolist.R
 import projetos.danilo.todolist.data.TodoViewModel
 import projetos.danilo.todolist.databinding.ActivityMainBinding
@@ -58,7 +59,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setupListeners() {
-        binding.fabAdd.setOnClickListener{
+        binding.fabAdd.setOnClickListener {
             startActivityForResult(
                 Intent(this, AddTaskActivity::class.java), CREATE_NEW_TASK
             )
@@ -67,7 +68,7 @@ class MainActivity : AppCompatActivity() {
         adapterTasks.listenerEdit = {
             val intent = Intent(this, AddTaskActivity::class.java)
             intent.putExtra(AddTaskActivity.TASK_ID, it.id)
-            startActivityForResult(intent, CREATE_NEW_TASK)
+            startActivityForResult(intent, UPDATE_TASK)
         }
 
         adapterTasks.listenerDelete = {
@@ -100,7 +101,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun updateList(list: List<Task>) {
-        if (list.isEmpty()){
+        if (list.isEmpty()) {
             binding.includeState.emptyState.visibility = View.VISIBLE
         } else {
             binding.includeState.emptyState.visibility = View.GONE
@@ -118,13 +119,32 @@ class MainActivity : AppCompatActivity() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if(requestCode == CREATE_NEW_TASK && resultCode == Activity.RESULT_OK) {
-            visibleLoading()
-            updateList(mTodoViewModel.getAllData.value as List<Task>)
+        visibleLoading()
+
+        when {
+            requestCode == CREATE_NEW_TASK && resultCode == Activity.RESULT_OK -> {
+                feedBackTaskActions(resources.getString(R.string.label_new_task_success))
+            }
+
+            requestCode == UPDATE_TASK && resultCode == Activity.RESULT_OK -> {
+                feedBackTaskActions(resources.getString(R.string.label_update_task_success))
+            }
         }
+
+        updateList(mTodoViewModel.getAllData.value as List<Task>)
+    }
+
+    //Feedback actions
+    private fun feedBackTaskActions(msg: String) {
+        val snackbar = Snackbar.make(
+            this, binding.tvTitle,
+            msg, Snackbar.LENGTH_LONG
+        )
+        snackbar.show()
     }
 
     companion object {
         private const val CREATE_NEW_TASK = 1000
+        private const val UPDATE_TASK = 1001
     }
 }
