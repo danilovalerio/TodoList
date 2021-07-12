@@ -81,18 +81,25 @@ class AddTaskActivity : AppCompatActivity() {
         }
 
         binding.btnNewTask.setOnClickListener {
-            val task = Task(
-                title = binding.tilTitle.text,
-                description = binding.tilDescription.text,
-                hour = binding.tilTimer.text,
-                date = binding.tilDate.text,
-                id = intent.getLongExtra(TASK_ID, 0)
-            )
+            if(binding.tilTitle.text.isBlank()) {
+                binding.tilTitle.editText?.error = resources
+                    .getString(R.string.label_field_mandatory)
+            } else {
+                binding.tilTitle.editText?.error = null
+                val task = Task(
+                    title = binding.tilTitle.text,
+                    description = binding.tilDescription.text,
+                    hour = binding.tilTimer.text,
+                    date = binding.tilDate.text,
+                    id = intent.getLongExtra(TASK_ID, 0)
+                )
 
-            mTodoViewModel.insertTask(task)
+                mTodoViewModel.insertTask(task)
 
-            setResult(Activity.RESULT_OK)
-            finish()
+                setResult(Activity.RESULT_OK)
+                finish()
+
+            }
         }
 
     }
