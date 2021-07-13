@@ -1,8 +1,8 @@
 # To Do List
 ## Aplicativo para gerenciar suas tarefas
 Funcionalidades
-- Cadastrar
-- Editar
-- Deletar
-- Filtrar por data
-- Limpar filtro
+- [x] Cadastrar
+- [x] Editar
+- [x] Deletar
+- [x] Filtrar por data
+- [x] Limpar filtro
