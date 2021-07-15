@@ -23,7 +23,7 @@ interface TodoListDao {
     @Query("SELECT * FROM todolist_table WHERE id = :id")
     fun getTaskById(id: Long): LiveData<Task?>
 
-    @Query("SELECT * FROM todolist_table WHERE date LIKE :searchQuery")
+    @Query("SELECT * FROM todolist_table WHERE date = :searchQuery")
     fun searchDataBase(searchQuery: String): LiveData<List<Task>>
 
 }

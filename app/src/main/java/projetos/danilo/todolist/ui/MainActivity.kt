@@ -49,7 +49,6 @@ class MainActivity : AppCompatActivity() {
             mTodoViewModel.checkDatabaseEmpty(it)
             updateList(it)
             binding.tvFilterActive.text = getString(R.string.label_all_tasks_by_date_desc)
-            mTodoViewModel.updateFilterAllData()
             goneLoading()
         })
 
@@ -91,12 +90,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         binding.btnCleanFilter.setOnClickListener {
-            visibleLoading()
-            updateList(mTodoViewModel.getList())
-            mTodoViewModel.updateFilterAllData()
-            goneLoading()
-            binding.btnCleanFilter.isEnabled = false
-            binding.tvFilterActive.text = getString(R.string.label_all_tasks_by_date_desc)
+            clearFilterAndUpdatList()
         }
     }
 
@@ -132,8 +126,6 @@ class MainActivity : AppCompatActivity() {
 
             else -> goneLoading()
         }
-
-        updateList(mTodoViewModel.getAllData.value as List<Task>)
     }
 
     //Feedback actions
@@ -143,6 +135,17 @@ class MainActivity : AppCompatActivity() {
             msg, Snackbar.LENGTH_LONG
         )
         snackbar.show()
+
+        clearFilterAndUpdatList()
+    }
+
+    private fun clearFilterAndUpdatList() {
+        visibleLoading()
+        updateList(mTodoViewModel.getList())
+        mTodoViewModel.updateFilterAllData()
+        goneLoading()
+        binding.btnCleanFilter.isEnabled = false
+        binding.tvFilterActive.text = getString(R.string.label_all_tasks_by_date_desc)
     }
 
     companion object {
