@@ -46,9 +46,9 @@ class MainActivity : AppCompatActivity() {
 
     private fun setupObservers() {
         mTodoViewModel.getAllData.observe(this, {
-            mTodoViewModel.checkDatabaseEmpty(it)
             updateList(it)
             binding.tvFilterActive.text = getString(R.string.label_all_tasks_by_date_desc)
+            mTodoViewModel.updateFilterAllData()
             goneLoading()
         })
 
@@ -80,6 +80,7 @@ class MainActivity : AppCompatActivity() {
             mTodoViewModel.searchByDate(it).observe(this, Observer { filteredList ->
                 updateList(filteredList)
             })
+            mTodoViewModel.updateFilterAllData()
             goneLoading()
 
             binding.tvFilterActive.text = getString(

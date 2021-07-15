@@ -17,6 +17,10 @@ class TodoViewModel(application: Application) : AndroidViewModel(application) {
 
     val getAllData: LiveData<List<Task>>
 
+    val filterDates: MutableLiveData<MutableList<String>> by lazy {
+        MutableLiveData<MutableList<String>>()
+    }
+
     init {
         repository = TodoListRepository(todoListDao)
         getAllData = repository.getList
@@ -24,10 +28,6 @@ class TodoViewModel(application: Application) : AndroidViewModel(application) {
 
     fun checkDatabaseEmpty(todoList: List<Task>) {
         emptyDatabase.value = todoList.isEmpty()
-    }
-
-    val filterDates: MutableLiveData<MutableList<String>> by lazy {
-        MutableLiveData<MutableList<String>>()
     }
 
     fun insertTask(task: Task) {

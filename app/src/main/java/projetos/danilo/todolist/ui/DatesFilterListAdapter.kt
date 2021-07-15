@@ -39,7 +39,7 @@ class DatesFilterListAdapter : ListAdapter<String, DatesFilterListAdapter.DateFi
             formatChosenDate(itemDate, dateSelected)
 
             binding.tvDayOfWeek.text = strDayOfWeek
-            binding.tvDay.text = item.take(LENGTH_TWO)
+            binding.tvDay.text = item.take(LENGTH_FIVE)
 
             binding.cvDayFilter.setOnClickListener {
                 listenerClick(item)
@@ -78,6 +78,7 @@ class DatesFilterListAdapter : ListAdapter<String, DatesFilterListAdapter.DateFi
 
     companion object {
         const val LENGTH_TWO = 2
+        const val LENGTH_FIVE = 5
         const val INDEX_1 = 1
     }
 }
