@@ -129,6 +129,8 @@ class MainActivity : AppCompatActivity() {
             requestCode == UPDATE_TASK && resultCode == Activity.RESULT_OK -> {
                 feedBackTaskActions(resources.getString(R.string.label_update_task_success))
             }
+
+            else -> goneLoading()
         }
 
         updateList(mTodoViewModel.getAllData.value as List<Task>)
